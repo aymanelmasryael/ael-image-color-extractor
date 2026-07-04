@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AEL Image Color Extractor — Ayman Elmasry</title>
+  <link rel="icon" type="image/svg+xml" href="ael-logo.svg">
+  <link rel="stylesheet" href="ael_color_extract.css">
+</head>
+<body>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="noise"></div>
+
+  <nav class="navbar glass" id="navbar">
+    <div class="nav-brand">
+      <img src="ael-logo.svg" alt="AEL" class="nav-logo-img">
+      <div class="nav-title">
+        <span class="nav-name">AYMAN ELMASRY</span>
+        <span class="nav-studio">AEL Digital Studio</span>
+      </div>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#overview" class="nav-link active">Overview</a>
+      <a href="#extract" class="nav-link">Extract</a>
+      <a href="#palette" class="nav-link">Palette</a>
+      <a href="#export" class="nav-link">Export</a>
+      <a href="#usecases" class="nav-link">Use Cases</a>
+      <a href="#about" class="nav-link">About</a>
+    </div>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+  </nav>
+
+  <!-- Overview -->
+  <section id="overview" class="section active">
+    <div class="section-bg"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+    <div class="container hero">
+      <div class="hero-badge glass"><span class="badge-dot"></span> v1.0 — AEL Studio</div>
+      <h1 class="hero-title"><span class="text-gradient">AEL Color</span><span class="hero-sub">Extractor</span></h1>
+      <p class="hero-desc">Upload any image and extract its dominant colors instantly. Get hex, RGB, and HSL values with smart color quantization and export to multiple formats.</p>
+      <div class="hero-stats">
+        <div class="stat-card glass"><span class="stat-icon">🎯</span><span class="stat-value">8</span><span class="stat-label">Colors per Palette</span></div>
+        <div class="stat-card glass"><span class="stat-icon">📤</span><span class="stat-value">5</span><span class="stat-label">Export Formats</span></div>
+        <div class="stat-card glass"><span class="stat-icon">⚡</span><span class="stat-value">0</span><span class="stat-label">Dependencies</span></div>
+        <div class="stat-card glass"><span class="stat-icon">🎨</span><span class="stat-value">Canvas</span><span class="stat-label">Engine</span></div>
+      </div>
+      <div class="showcase-preview glass" id="overviewPreview">
+        <svg viewBox="0 0 400 180" width="100%" style="max-width:400px">
+          <rect x="20" y="20" width="160" height="140" rx="10" fill="#1a1a2e" stroke="rgba(0,116,255,.3)" stroke-width="1"/>
+          <text x="55" y="55" fill="#64748b" font-family="monospace" font-size="9">Drop image here</text>
+          <rect x="55" y="65" width="90" height="28" rx="6" fill="rgba(0,116,255,.15)" stroke="rgba(0,116,255,.3)" stroke-width="1"/>
+          <text x="100" y="84" fill="#a5d6ff" font-family="monospace" font-size="9" text-anchor="middle">Choose File</text>
+          <rect x="210" y="20" width="170" height="30" rx="6" fill="#2d1b69"/>
+          <rect x="210" y="55" width="170" height="30" rx="6" fill="#1e3a5f"/>
+          <rect x="210" y="90" width="170" height="30" rx="6" fill="#0d2137"/>
+          <rect x="210" y="125" width="170" height="30" rx="6" fill="#3a1c1c"/>
+        </svg>
+      </div>
+      <a href="#extract" class="btn-primary glass" id="heroCta">Extract Colors <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </section>
+
+  <!-- Extract -->
+  <section id="extract" class="section">
+    <div class="section-bg"><div class="orb orb-1"></div></div>
+    <div class="container">
+      <div class="section-header"><span class="section-badge glass">🎯 Extract</span><h2>Extract Colors</h2><p>Upload an image to extract its dominant color palette</p></div>
+      <div class="extract-grid">
+        <div class="upload-area glass" id="uploadArea">
+          <div class="upload-content" id="uploadContent">
+            <span class="upload-icon">📤</span>
+            <p class="upload-text">Drop an image here or click to browse</p>
+            <p class="upload-hint">Supports JPG, PNG, WebP</p>
+            <input type="file" class="upload-input" id="fileInput" accept="image/*">
+          </div>
+          <div class="upload-preview" id="uploadPreview" style="display:none">
+            <img id="previewImage" alt="Uploaded image">
+            <button class="upload-change glass" id="changeImage">Change Image</button>
+          </div>
+        </div>
+        <div class="extract-controls glass">
+          <div class="control-group">
+            <label class="control-label">Colors: <span id="colorCountLabel">8</span></label>
+            <input type="range" class="range" id="colorCount" min="3" max="16" value="8">
+            <div class="range-labels"><span>Min</span><span>Max</span></div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Quality: <span id="qualityLabel">Medium</span></label>
+            <input type="range" class="range" id="quality" min="1" max="5" value="3">
+            <div class="range-labels"><span>Fast</span><span>Accurate</span></div>
+          </div>
+          <button class="btn-primary glass" id="extractBtn" disabled>Extract Palette</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Palette -->
+  <section id="palette" class="section">
+    <div class="section-bg"><div class="orb orb-2"></div></div>
+    <div class="container">
+      <div class="section-header"><span class="section-badge glass">🎨 Palette</span><h2>Color Palette</h2><p>Extracted colors with hex, RGB, and HSL values</p></div>
+      <div class="palette-empty" id="paletteEmpty">
+        <span class="palette-empty-icon">🖼️</span>
+        <p>No palette yet</p>
+        <p class="palette-empty-sub">Upload an image in the Extract section to generate a palette</p>
+      </div>
+      <div class="palette-grid" id="paletteGrid" style="display:none"></div>
+      <div class="palette-actions" id="paletteActions" style="display:none">
+        <button class="btn-primary glass" id="exportBtn">Export Palette →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Export -->
+  <section id="export" class="section">
+    <div class="section-bg"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+    <div class="container">
+      <div class="section-header"><span class="section-badge glass">📤 Export</span><h2>Export Palette</h2><p>Copy or download your palette in your preferred format</p></div>
+      <div class="export-tabs glass">
+        <button class="export-tab active" data-format="css">CSS</button>
+        <button class="export-tab" data-format="tailwind">Tailwind</button>
+        <button class="export-tab" data-format="json">JSON</button>
+        <button class="export-tab" data-format="svg">SVG</button>
+        <button class="export-tab" data-format="txt">Plain</button>
+      </div>
+      <div class="export-panel active" id="export-css">
+        <pre class="code-block glass"><code id="exportCodeCss">:root { }</code><button class="copy-btn" data-format="css">Copy</button></pre>
+      </div>
+      <div class="export-panel" id="export-tailwind">
+        <pre class="code-block glass"><code id="exportCodeTailwind">module.exports = { }</code><button class="copy-btn" data-format="tailwind">Copy</button></pre>
+      </div>
+      <div class="export-panel" id="export-json">
+        <pre class="code-block glass"><code id="exportCodeJson">[]</code><button class="copy-btn" data-format="json">Copy</button></pre>
+      </div>
+      <div class="export-panel" id="export-svg">
+        <pre class="code-block glass"><code id="exportCodeSvg"><svg></svg></code><button class="copy-btn" data-format="svg">Copy</button></pre>
+      </div>
+      <div class="export-panel" id="export-txt">
+        <pre class="code-block glass"><code id="exportCodeTxt">— extracted colors</code><button class="copy-btn" data-format="txt">Copy</button></pre>
+      </div>
+      <div class="export-actions" id="exportActions" style="display:none">
+        <button class="btn-primary glass" id="downloadBtn">Download Palette</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use Cases -->
+  <section id="usecases" class="section">
+    <div class="section-bg"><div class="orb orb-1"></div></div>
+    <div class="container">
+      <div class="section-header"><span class="section-badge glass">💡 Use Cases</span><h2>Use Cases</h2><p>Practical applications for color extraction</p></div>
+      <div class="usecase-grid">
+        <div class="usecase-card glass"><span class="usecase-icon">🎨</span><h3>Design Systems</h3><p>Extract brand colors from logos and marketing materials to build consistent design tokens across your projects.</p></div>
+        <div class="usecase-card glass"><span class="usecase-icon">🌐</span><h3>Web Development</h3><p>Generate CSS variables and Tailwind configs from reference images — perfect for client projects and theme creation.</p></div>
+        <div class="usecase-card glass"><span class="usecase-icon">📱</span><h3>Mobile Apps</h3><p>Create consistent color themes for iOS and Android apps by extracting palettes from brand assets and photography.</p></div>
+        <div class="usecase-card glass"><span class="usecase-icon">🖼️</span><h3>Digital Art</h3><p>Analyze artwork color schemes for inspiration, study color theory, or recreate palettes from your favorite pieces.</p></div>
+        <div class="usecase-card glass"><span class="usecase-icon">📊</span><h3>Data Visualization</h3><p>Build accessible chart palettes that match your brand identity by extracting harmonious colors from brand imagery.</p></div>
+        <div class="usecase-card glass"><span class="usecase-icon">🏷️</span><h3>Brand Identity</h3><p>Maintain visual consistency by extracting and documenting color standards from existing brand collateral and guidelines.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="section-bg"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+    <div class="container">
+      <div class="section-header"><span class="section-badge glass">ℹ️ About</span><h2>About AEL Color Extractor</h2><p>A canvas-based color extraction tool by AEL Digital Studio</p></div>
+      <div class="about-grid">
+        <div class="about-card glass"><h3>📋 Overview</h3><p>AEL Image Color Extractor uses canvas-based pixel analysis and smart color quantization to extract dominant colors from any image. No server required — everything runs in your browser.</p></div>
+        <div class="about-card glass"><h3>⚡ Features</h3><ul class="about-list"><li>3-16 color extraction with quality control</li><li>Smart color quantization algorithm</li><li>5 export formats (CSS, Tailwind, JSON, SVG, TXT)</li><li>Canvas-based pixel analysis</li><li>Zero server dependencies</li><li>Copy-paste ready exports</li></ul></div>
+        <div class="about-card glass"><h3>🛠 Tech Stack</h3><ul class="about-list"><li><strong>HTML5</strong> — Semantic structure</li><li><strong>CSS3</strong> — Glassmorphism, grid, flexbox</li><li><strong>JavaScript</strong> — Canvas API, color quantization, file API</li></ul></div>
+        <div class="about-card glass"><h3>👤 Author</h3><p><strong>Ayman Elmasry</strong><br>AEL Digital Studio</p><p class="about-version">Version 1.0 — 2026</p><p class="about-license">MIT License — Free for personal and commercial use</p></div>
+      </div>
+      <div class="about-footer glass"><p>&copy; 2026 Ayman Elmasry — AEL Digital Studio. All rights reserved.</p><p class="about-tagline">Built with the Canvas API — zero dependencies</p></div>
+    </div>
+  </section>
+
+  <script src="ael_color_extract.js"></script>
+</body>
+</html>
