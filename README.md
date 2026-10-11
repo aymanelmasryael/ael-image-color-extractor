@@ -158,7 +158,7 @@ Or simply open `index.html` in any modern browser — no server required.
 
 **Created by:** Ayman Elmasry — AEL Digital Studio  
 **Website:** [aymanelmasry.com](https://aymanelmasry.com)  
-**Email:** [info@aymanelmasry.com](mailto:info@aymanelmasry.com)  
+**Email:** [ayman@aymanelmasry.me](mailto:ayman@aymanelmasry.me)  
 **License:** MIT — Free for personal and commercial use.
 
 ### Connect
